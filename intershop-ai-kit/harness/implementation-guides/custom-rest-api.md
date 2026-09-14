@@ -33,6 +33,8 @@ Apply [Architecture](../../docs/ARCHITECTURE.md), [Security](../../docs/SECURITY
 
 ## Discover the complete flow
 
+Locate storefront resources in installed `app_sf_rest*.jar` binaries. Also inspect `app_bo_rest_*`, `app_sf_contactcenter_rest`, `pmc_rest`, `bc_platform_rest`, and project-owned cartridges as applicable. Verify resource classes, deployed component registration, and ACLs to establish the effective path, verb, and owning cartridge.
+
 Trace each affected verb independently:
 
 ```text
@@ -51,7 +53,7 @@ Record:
 ## Implement
 
 1. Define stable DTO and sanitized error contracts; never expose POs.
-2. Keep resources thin and reuse the installed handler/orchestration flow.
+2. Keep resources thin and reuse the installed handler/orchestration flow. Where the installed framework supports implementation-name rebinding, register the custom implementation under the existing name in a later custom cartridge; preserve the contract and delegate existing behavior.
 3. Extend at the narrowest supported seam. Prefer decorated validators, operators, and mappers that delegate existing behavior.
    When a resource obtains its handler indirectly and no narrower mapper hook exists, a project-owned resource subclass MAY override only handler resolution and delegate all request processing to the installed resource. Pair it with a handler subclass/decorator that calls `super` or its delegate before adding behavior; do not copy the resource method or replace its parent collection solely to inject the handler.
 4. Validate transport and business rules before any mutation.
@@ -77,7 +79,9 @@ For recurring fields or variants, use one typed, business-neutral extension mech
 
 - Contract: success, malformed input, not found, conflict, compatibility, serialization, and authoritative post-write response.
 - Security: unauthenticated, forbidden, cross-scope, ACL matching, and sanitized errors.
-- Wiring: discovery, component delegation/cardinality, mapper execution, application membership, and cartridge order.
+- Wiring: verify the effective custom implementation, component delegation/cardinality, mapper execution, and endpoint behavior in every target application type.
+- Unit context: use installed request-context test support (e.g., `RequestRule`) when handlers depend on the current request/channel.
+- Performance: check list responses for N+1 business-object or attribute lookups.
 - Persistence: rollback, concurrency/idempotency, query scope, migration, and no partial state.
 - Side effects: commit ordering, failure, retry, and recovery.
 - Regression: every affected existing verb and response field.

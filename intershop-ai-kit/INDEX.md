@@ -5,12 +5,7 @@ Choose the business outcome. You do not need to know the technical solution or w
 | # | Area | Business outcome | Guide | Complexity | Phase |
 |---:|---|---|---|---|---|
 | 1 | Backend | Create or extend an Intershop REST API for headless commerce | [Custom REST API](harness/implementation-guides/custom-rest-api.md) | Low–Medium | 1 |
-| 2 | Backend | Generate and transform commerce data for BI/reporting | [Commerce BI Data](harness/implementation-guides/commerce-bi-data.md) | Low–Medium | 1 |
-| 3 | Backend | Generate Intershop preferences and configuration safely | [Preference Generator](harness/implementation-guides/preference-generator.md) | Low–Medium | 1 |
-| 4 | Frontend | Create an Intershop Angular PWA component backed by Contentful CMS | [Angular PWA CMS Component](harness/implementation-guides/angular-pwa-cms-component.md) | Low–Medium | 1 |
-| 5 | Backend | Design and implement a serverless commerce microservice | [Serverless Microservice](harness/implementation-guides/serverless-microservice.md) | Medium–High | 1 |
-| 6 | Frontend | Add upgrade-compatible capabilities to an Intershop PWA baseline | [PWA Accelerator](harness/implementation-guides/pwa-accelerator.md) | High | 1 |
-| 7 | Frontend | Migrate legacy ISML behavior to a Next.js storefront | [Legacy ISML to Next.js](harness/implementation-guides/legacy-isml-to-nextjs.md) | High | 2 candidate |
+| 2 | Backend | Generate Intershop preferences and configuration safely | [Preference Generator](harness/implementation-guides/preference-generator.md) | Low–Medium | 1 |
 
 ## Always apply
 

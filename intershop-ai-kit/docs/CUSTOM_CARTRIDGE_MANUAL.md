@@ -19,7 +19,7 @@ Use only when no existing project-owned cartridge has the required responsibilit
 - Keep REST separate from business/repository APIs and PO/ORM implementation.
 - Put repository contracts in business/API code. Keep implementations with PO/ORM unless project precedent requires another cartridge.
 - Preserve one-way dependencies and existing cartridge order.
-- Place a custom extension cartridge after every cartridge it extends, decorates, or depends on—normally last among the relevant production cartridges. This makes upstream artifacts available before custom registrations are applied; order does not replace an explicit build dependency or Java inheritance declaration.
+- Place a custom extension cartridge after the cartridges it extends or decorates, normally last among the relevant production cartridges. Where the framework supports order-based overrides, the later cartridge takes precedence over earlier cartridges; order alone does not override all functionality or replace explicit dependencies and extension wiring.
 
 ## Procedure
 
@@ -28,8 +28,8 @@ Use only when no existing project-owned cartridge has the required responsibilit
 3. Create only the directories and configuration required by that precedent.
 4. Use the installed build plugin and minimal supported API dependencies; do not copy a large dependency list.
 5. Register the subproject when discovery is not automatic.
-6. Register it once in every required assembly/environment, after all cartridges it extends or decorates—normally last among the relevant production cartridges. Never use order to shadow artifacts or replace declared dependencies.
-7. Register all applicable framework pieces: component contracts/instances, modules, REST membership, ACLs, mappers, services, repository implementations, ORM, and activation.
+6. Include the custom cartridge in each target assembly's `build.gradle` using its packaging and ordering mechanism (e.g., `storefrontCartridges`, `include`, and `order`), and declare required build dependencies. Packaging and application activation are separate requirements.
+7. Self-register from the custom cartridge's `staticfiles/cartridge/components/apps-extension.component` (or the filename used by project precedent). Fulfill `selectedCartridge` for each application type required by its function; do not edit default application-suite cartridges. Register other applicable components, modules, REST membership, ACLs, mappers, services, ORM, and activation.
 8. Put persistent changes in a project-owned DBMigrate step versioned for the introducing release; never use DBPrepare/DBInit for delivery.
 9. Build, test, assemble, deploy, and prove framework discovery.
 
@@ -38,8 +38,8 @@ Exact plugins, paths, tasks, annotations, and resource formats must come from th
 ## Verify
 
 - Build recognizes the project and produces its artifact.
-- Required assemblies include it exactly once with valid dependency order.
-- The resolved cartridge order places it after every extended or decorated cartridge.
+- Verify packaging and order in the generated `cartridgelist.properties`, and application membership for every target application type.
+- The resolved cartridge order places it after every extended or decorated cartridge, and the intended override takes effect while unrelated behavior is preserved.
 - Server startup and component/resource discovery succeed without collisions.
 - Authorization and existing behavior regressions pass.
 - Migrations upgrade every supported prior release and converge on fresh setup.

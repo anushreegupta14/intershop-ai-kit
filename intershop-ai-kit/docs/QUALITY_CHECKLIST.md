@@ -14,4 +14,5 @@
 - [ ] Logs, metrics, traces, correlation IDs, alerts, and operational ownership are defined.
 - [ ] Documentation includes configuration, examples, deployment, rollback, and troubleshooting.
 - [ ] No generated placeholder, fabricated import/API, secret, debug code, or disabled test remains.
+- [ ] Dependency changes reuse platform-compatible artifacts without duplicate classes; run each affected assembly's `checkClassCollisions` task where available. Clean stale generated output and recheck if collisions persist after a dependency correction.
 - [ ] Build, lint, tests, and repository-specific verification commands pass.
